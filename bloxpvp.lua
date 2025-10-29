@@ -19,15 +19,22 @@ local Tabs = {
     }
 }
 
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
 local Slider = Tabs.Main:CreateSlider("Slider", {
-    Title = "hitbox",
-    Description = "",
+    Title = "Hitbox",
+    Description = "Resize all player hitboxes except you",
     Default = 1,
     Min = 1,
     Max = 100,
     Rounding = 1,
     Callback = function(Value)
-        workspace.Characters.ncqzqsuze2211.HumanoidRootPart.Size = Vector3.new(Value, Value, Value)
-        print("Slider was changed:", Value)
+        for _, model in pairs(workspace.Characters:GetChildren()) do
+            if model:FindFirstChild("HumanoidRootPart") and model.Name ~= LocalPlayer.Name then
+                model.HumanoidRootPart.Size = Vector3.new(Value, Value, Value)
+            end
+        end
+        print("Hitbox size changed to:", Value)
     end
 })
